@@ -2,8 +2,8 @@ namespace efficiency
 {
     public class HourlyEfficiency
     {
-        public int IdResidence { get; set; }
-        public String Name { get; set; }
+        public int Id { get; set; }
+        public int IdSemester { get; set; }
         private int percentileEfficiency;
         public int startHour;
         public int endHour;
@@ -54,9 +54,9 @@ namespace efficiency
                 }
             }
         }
-        public HourlyEfficiency addIdResidence(int i)
+        public HourlyEfficiency addIdSemester(int i)
         {
-            this.IdResidence = i;
+            this.IdSemester = i;
             return this;
         }
         public HourlyEfficiency addName(string n)

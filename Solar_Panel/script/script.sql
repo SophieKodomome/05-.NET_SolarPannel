@@ -31,7 +31,7 @@ CREATE TABLE hourly_efficiency (
     id_semester INT REFERENCES semester(id),
     start_hour INT,
     end_hour INT,
-    a_plat DECIMAL(10,2)
+    efficiency_rate INT
 );
 
 CREATE TABLE solar_panel (
@@ -44,7 +44,7 @@ CREATE TABLE battery (
     id SERIAL PRIMARY KEY,
     name VARCHAR,
     price_per_watt INT,
-    efficiency_rate INT
+    a_plat DECIMAL(10,2)
 );
 
 CREATE TABLE residence_consumption (

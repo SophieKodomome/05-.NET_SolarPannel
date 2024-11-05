@@ -7,7 +7,6 @@ namespace material
         private int power;
         public int startHour;
         public int endHour;
-
         public Device() { }
 
         public int Power

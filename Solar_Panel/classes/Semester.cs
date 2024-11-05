@@ -4,11 +4,10 @@ namespace efficiency
     {
         public int Id { get; set; }
         public String Name { get; set; }
-        private List<HourlyEfficiency> hours;
+        public List<HourlyEfficiency> Hours{get;set;}
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public Semester() { }
-
         public Semester addId(int i)
         {
             this.Id = i;
