@@ -22,6 +22,7 @@
                 <ul>
                     <li>AJouter une r&eacute;sidence</li>
                     <li>Liste de r&eacute;sidences</li>
+                    <li>Liste de materiel</li>
                     <li>&Eacute;fficat&eacute;</li>
                 </ul>
             </ul>
@@ -42,7 +43,7 @@
                     <li>Create table semester(id,name,start_date,start_date)</li>
                     <li>Create table hourly_efficiency(id,id_semester,start_hour,end_hour,percentile_efficiency)</li>
                     <li>Create table solar_panel(id,name,price_per_watt)</li>
-                    <li>Create table battery(id,name,price_per_watt,efficiency_rate)</li>
+                    <li>Create table battery(id,name,price_per_watt,a_plat)</li>
                     <li>Create table residence_consumption(id,id_residence,id_semester,solar_panel_power,battery_charge)</li>
                     <li>Create table bill(id,id_residence,id_semester,id_solar_panel,solar_panel_price,id_battery,battery_price,total_price)</li>
                 </ul>
@@ -52,6 +53,8 @@
                     <li>Device(id_residence,device,power,startHour,endHour)</li>
                     <li>Semester(id,name,startDate,endDate,hourlyEfficiency[])</li>
                     <li>HourlyEfficiency(id,startDate,endDate,percentileEfficiency)</li>
+                    <li>SolarPanel(id,name,pricePerWatt)</li>                    
+                    <li>Battery(id,name,pricePerWatt,aPlat)</li>
                     <li>PSQLConn</li>
                     <li>Util</li>
                     <ul>
