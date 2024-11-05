@@ -43,10 +43,8 @@
                     <li>Create table hourly_efficiency(id,id_semester,start_hour,end_hour,percentile_efficiency)</li>
                     <li>Create table solar_panel(id,name,price_per_watt)</li>
                     <li>Create table battery(id,name,price_per_watt,efficiency_rate)</li>
-                    <li>Create table residence_daily_consumption(id,id_residence,id_semester,solar_panel_power,battery_charge)</li>
-                    <li>Create view residence_yearly_consumption(id_residence,sum(solar_panel_power),sum(battery_charge),group by id_residence)</li>
+                    <li>Create table residence_consumption(id,id_residence,id_semester,solar_panel_power,battery_charge)</li>
                     <li>Create table bill(id,id_residence,id_semester,id_solar_panel,solar_panel_price,id_battery,battery_price,total_price)</li>
-                    <li>Create view bill_yearly(id_residence,id_solar_panel,sum(solar_panel_price),id_battery,sum(battery_price,total_price) group by id_residence)</li>
                 </ul>
             <h5>classes</h5>
                 <ul>
