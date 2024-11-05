@@ -1,4 +1,4 @@
-namespace materiel
+namespace material
 {
     public class Device
     {

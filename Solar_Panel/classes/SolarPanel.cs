@@ -1,11 +1,11 @@
-namespace materiel
+namespace material
 {
     public class SolarPanel
     {
         public int Id { get; set; }
         public String Name { get; set; }
         private int pricePerWatt;
-        public SolarPanel() { }
+        public SolarPanel() {}
         public int PricePerWatt
         {
             get { return pricePerWatt; }
