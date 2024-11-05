@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "OCouRx2WBBU63V/gVHQTIAPSqfAyJCg1OqmbZPYrxKlZPsal8VF8LbHx+fdNDXkZs9B85RvTG4I/zsqql4bT8A==",
+  "dgSpecHash": "iTxzqLlW0LLmUkNWEnv/VZ5nh8Kj0lTvnXLI9RkuoO+18MU/roOqSJRLnuS+VF4/ZP7G4r/FFd4rlhVV/UZ2Kg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Pyvas\\OneDrive\\Documents\\C-ITU-Files-L3\\S5\\02-Code\\05-.NET_SolarPannel\\Solar_Panel\\Solar_Panel.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Pyvas\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\Pyvas\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\Pyvas\\.nuget\\packages\\npgsql\\8.0.5\\npgsql.8.0.5.nupkg.sha512"
+  ],
   "logs": []
 }

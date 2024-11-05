@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Solar_Panel.props" />
+</Project>

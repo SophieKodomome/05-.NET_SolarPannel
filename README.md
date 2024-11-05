@@ -65,4 +65,10 @@
                     </ul>
                 </ul>
 
- 
+<h2>Guide & Tips:</h2>
+<h3>Install Npgsql</h3>
+<ul>
+    <li>nuget install Npgsql</li>
+    <li>dotnet restore</li>
+</ul>
+
