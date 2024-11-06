@@ -1,0 +1,42 @@
+@page
+@model ListEfficiencyModel
+@{
+    ViewData["Title"] = "Liste Efficacite";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Efficacit&eacute; par p&eacute;riode</h1>
+    <div>
+    @if(Model.semesters !=null)
+    {
+        @foreach(var semester in Model.semesters)
+        {
+            <h2>@semester.Name</h2>
+            <div>
+                <span>commence le @semester.StartDate</span>
+                <span>| |</span>
+                <span>se termine le @semester.EndDate</span>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th>start hour</th>
+                        <th>end hour</th>
+                        <th>Efficiency Rate</th>
+                    </tr>
+
+                    @foreach(var hour in semester.Hours)
+                    {                    
+                        <tr>
+                            <td>@hour.StartHour</td>
+                            <td>@hour.EndHour</td>
+                            <td>@hour.PercentileEfficiency %</td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        }
+    }    
+    </div>
+</div>

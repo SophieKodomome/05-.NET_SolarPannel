@@ -1,0 +1,64 @@
+@page
+@model AddEfficiencyModel
+@{
+    ViewData["Title"] = "Ajouter Efficacite";
+}
+
+<div class="text-center">
+    <div>
+        <h1 class="display-1">Ajouter Efficacité</h1>
+    </div>
+    <div class="col">
+        <h2>Ajouter semestre</h2>
+        <form method="post" asp-page-handler="TraitementSemester">
+            <div>
+                <span>
+                    <label>Semestre</label>
+                    <input type="text" name="semestre" id="semestre" class="form-control" placeholder="Semestre" required />
+                </span>
+                <span>
+                    <label>Début</label>
+                    <input type="date" name="start_date" id="start_date" class="form-control" required />
+                </span>
+                <span>
+                    <label>Fin</label>
+                    <input type="date" name="end_date" id="end_date" class="form-control" required />
+                </span>
+            </div>
+            <!-- Submit Button -->
+            <input type="submit" value="ok" />
+        </form>
+    </div>
+    <div class="col">
+        <h2>Ajouter efficacité journalière</h2>
+        <form method="post" asp-page-handler="TraitementEfficiency">
+            <div>
+                <span>
+                    <label>Efficacité journalière</label>
+                    <input type="text" name="efficacite" id="efficacite" class="form-control" placeholder="En pourcentage" required />
+                </span>
+                <span>
+                    <label>Semestre</label>
+                    <!-- Dropdown for selecting a Semestre -->
+                    <select name="SelectedSemesterId" asp-for="SelectedSemester.Id" class="form-control" required>
+                        <option value="">Sélectionnez un semestre</option>
+                        @foreach (var semester in Model.semesters)
+                        {
+                            <option value="@semester.Id">@semester.Name</option>
+                        }
+                    </select>
+                </span>
+                <span>
+                    <label>Début</label>
+                    <input type="number" name="start_hour" id="start_hour" class="form-control" placeholder="Heure de début" required />
+                </span>
+                <span>
+                    <label>Fin</label>
+                    <input type="number" name="end_hour" id="end_hour" class="form-control" placeholder="Heure de fin" required />
+                </span>
+            </div>
+            <!-- Submit Button -->
+            <input type="submit" value="ok" />
+        </form>
+    </div>
+</div>

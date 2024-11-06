@@ -76,15 +76,12 @@
 
 <script>
     function addAppareil() {
-        // Find the first appareil-form and clone it
         var appareilContainer = document.getElementById("appareil-container");
         var newAppareil = appareilContainer.children[0].cloneNode(true);
 
-        // Clear the input fields in the cloned form
         var inputs = newAppareil.querySelectorAll("input");
         inputs.forEach(input => input.value = "");
 
-        // Append the cloned form to the container
         appareilContainer.appendChild(newAppareil);
     }
 

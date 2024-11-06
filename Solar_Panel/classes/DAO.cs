@@ -57,7 +57,7 @@ namespace util
             {
                 connection.Open();
 
-                string selectCommand = "SELECT * FROM Semester";
+                string selectCommand = "SELECT * FROM hourly_efficiency";
 
                 using (var command = new NpgsqlCommand(selectCommand, connection))
                 {
@@ -66,14 +66,17 @@ namespace util
                         while (reader.Read())
                         {
                             int id=reader.GetInt32(0);
-                            string name=reader.GetString(1);
+                            int IdSemester=reader.GetInt32(1);
                             int startHour=reader.GetInt32(2);
                             int endHour=reader.GetInt32(3);
+                            int efficiency=reader.GetInt32(4);
 
                             HourlyEfficiency hourlyEfficiency =  new HourlyEfficiency()
-                                .addIdSemester(id)
+                                .addId(id)
+                                .addIdSemester(IdSemester)
                                 .addStartHour(startHour)
-                                .addEndHour(endHour);
+                                .addEndHour(endHour)
+                                .addPercentileEfficiency(efficiency);
 
                             hourlies.Add(hourlyEfficiency);
                         }

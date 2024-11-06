@@ -1,3 +1,5 @@
+using System;
+
 namespace efficiency
 {
     public class HourlyEfficiency
@@ -53,6 +55,11 @@ namespace efficiency
                     throw new ArgumentException("End Hour must be a non-negative value.");
                 }
             }
+        }
+        public HourlyEfficiency addId(int i)
+        {
+            this.Id = i;
+            return this;
         }
         public HourlyEfficiency addIdSemester(int i)
         {
