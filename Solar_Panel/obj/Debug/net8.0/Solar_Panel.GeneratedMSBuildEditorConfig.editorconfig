@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Pyvas\OneDrive\Documents\C-ITU-Files-L3\S5\02-Code\05-.NET_SolarPannel\Solar_Panel
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Pyvas/OneDrive/Documents/C-ITU-Files-L3/S5/02-Code/05-.NET_SolarPannel/Solar_Panel/Pages/AddResidence.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkUmVzaWRlbmNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Pyvas/OneDrive/Documents/C-ITU-Files-L3/S5/02-Code/05-.NET_SolarPannel/Solar_Panel/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

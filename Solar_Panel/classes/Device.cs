@@ -3,7 +3,7 @@ namespace material
     public class Device
     {
         public int IdResidence { get; set; }
-        public String Name { get; set; }
+        public string Name { get; set; }
         private int power;
         public int startHour;
         public int endHour;

@@ -1,9 +1,11 @@
-namespace materiel
+using System;
+
+namespace material
 {
     public class Battery
     {
         public int Id { get; set; }
-        public String Name { get; set; }
+        public string Name { get; set; }
         private int pricePerWatt;
         private int aPlat;
         public Battery() { }

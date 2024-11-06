@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace efficiency
 {
     public class Semester
@@ -31,7 +34,7 @@ namespace efficiency
         }
         public Semester addHours(List<HourlyEfficiency> h)
         {
-            this.hours = h;
+            this.Hours = h;
             return this;
         }
 

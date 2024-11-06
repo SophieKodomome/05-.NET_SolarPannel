@@ -59,11 +59,6 @@ namespace efficiency
             this.IdSemester = i;
             return this;
         }
-        public HourlyEfficiency addName(string n)
-        {
-            this.Name = n;
-            return this;
-        }
         public HourlyEfficiency addPercentileEfficiency(int p)
         {
             this.PercentileEfficiency = p;

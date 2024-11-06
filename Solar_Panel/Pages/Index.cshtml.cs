@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using connect;
 using efficiency;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using Npgsql;
 using util;
 
@@ -36,8 +39,6 @@ public class IndexModel : PageModel
                     }
                 }
             }
-
-            Console.WriteLine(semesters[0].Hours[0].Name);
         }
     }
 }

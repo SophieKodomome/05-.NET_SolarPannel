@@ -1,3 +1,5 @@
+using System;
+
 namespace material
 {
     public class SolarPanel

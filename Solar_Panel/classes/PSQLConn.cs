@@ -1,3 +1,4 @@
+using System;
 using Npgsql;
 
 namespace connect
@@ -5,11 +6,11 @@ namespace connect
 
     public class PSQLCon
     {
-        private string test;
+        private String test;
         String connectionString;
 
-        public string Test { get; set; }
-        public string ConnectionString {get;set;}
+        public String Test { get; set; }
+        public String ConnectionString {get;set;}
         public PSQLCon()
         {
             Init_Connection();

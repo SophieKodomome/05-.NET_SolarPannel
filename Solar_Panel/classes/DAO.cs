@@ -72,7 +72,6 @@ namespace util
 
                             HourlyEfficiency hourlyEfficiency =  new HourlyEfficiency()
                                 .addIdSemester(id)
-                                .addName(name)
                                 .addStartHour(startHour)
                                 .addEndHour(endHour);
 

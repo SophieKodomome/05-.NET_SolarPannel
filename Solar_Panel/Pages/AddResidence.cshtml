@@ -1,0 +1,98 @@
+@page
+@model AddResidenceModel
+@{
+    ViewData["Title"] = "Ajouter Residence";
+}
+
+<div class="text-center">
+    <div>
+        <h1 class="display-1">Ajouter Résidence</h1>
+    </div>
+    <div class="col">
+        <form method="post" asp-page-handler="TraitementResidence">
+            <div class="residence-form">
+                <label>Ajouter Residence</label>
+                <br>
+                <input type="text" name="residence" id="residence" class="form-control" placeholder="Address" required />
+            </div>
+            
+            <!-- Container for multiple Appareil forms -->
+            <div id="appareil-container">
+                <!-- This section will be duplicated for each new Appareil -->
+                <div class="appareil-form">
+                    <span class="form-item">
+                        <label>Appareil</label>
+                        <input type="text" name="material" class="form-control" placeholder="Material" required />
+                    </span>
+                    <span class="form-item">
+                        <label>Puissance</label>
+                        <input type="number" name="power" class="form-control" placeholder="Puissance" required />
+                    </span>
+                    <span class="form-item">
+                        <label>Heure de début</label>
+                        <input type="number" name="start_hour" class="form-control" placeholder="Heure de début" required />
+                    </span>
+                    <span class="form-item">
+                        <label>Heure de Fin</label>
+                        <input type="number" name="end_hour" class="form-control" placeholder="Heure de fin" required />
+                    </span>
+                    <!-- Remove Appareil Button -->
+                    <button type="button" class="remove-button" onclick="removeAppareil(this)">Retirer un Appareil</button>
+                </div>
+            </div>
+
+            <!-- Button to add a new Appareil form -->
+            <button type="button" onclick="addAppareil()">Ajouter un Appareil</button>
+            
+            <!-- Submit Button -->
+            <input type="submit" value="ok" />
+        </form>
+    </div>
+</div>
+
+<style>
+    .appareil-form {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+    .form-item {
+        display: flex;
+        margin-right: 20px; 
+    }
+    .remove-button {
+        margin-left: 20px;
+        color: #fff;
+        background-color: #dc3545;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+    .remove-button:hover {
+        background-color: #c82333;
+    }
+</style>
+
+<script>
+    function addAppareil() {
+        // Find the first appareil-form and clone it
+        var appareilContainer = document.getElementById("appareil-container");
+        var newAppareil = appareilContainer.children[0].cloneNode(true);
+
+        // Clear the input fields in the cloned form
+        var inputs = newAppareil.querySelectorAll("input");
+        inputs.forEach(input => input.value = "");
+
+        // Append the cloned form to the container
+        appareilContainer.appendChild(newAppareil);
+    }
+
+    function removeAppareil(button) {
+        // Only remove if there are multiple Appareil forms
+        var appareilContainer = document.getElementById("appareil-container");
+        if (appareilContainer.children.length > 1) {
+            button.closest('.appareil-form').remove();
+        }
+    }
+</script>
