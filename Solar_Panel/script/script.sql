@@ -31,7 +31,7 @@ CREATE TABLE hourly_efficiency (
     id_semester INT REFERENCES semester(id),
     start_hour INT,
     end_hour INT,
-    efficiency_rate INT
+    percentile_efficiency INT
 );
 
 CREATE TABLE solar_panel (

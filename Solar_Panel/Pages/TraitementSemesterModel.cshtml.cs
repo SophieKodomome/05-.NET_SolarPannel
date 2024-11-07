@@ -17,18 +17,13 @@ public class TraitementSemesterModel : PageModel
     public void OnGet()
     {
         PSQLCon pSQLCon = new PSQLCon();
+        string semestre = TempData["semestre"].ToString();
+        string startDate = TempData["start_date"].ToString();
+        string endDate = TempData["end_date"].ToString();
 
         using (var connection = new NpgsqlConnection(pSQLCon.ConnectionString))
         {
-        if(TempData["semestre"] != null)
-        {
-            
-            string semestre = TempData["semestre"].ToString();
-            string startDate = TempData["start_date"].ToString();
-            string endDate = TempData["end_date"].ToString();
-
-            DAO.insertSemester(semestre,startDate,endDate,connection);
-        }
+            DAO.insertSemester(semestre, startDate, endDate, connection);
         }
 
     }

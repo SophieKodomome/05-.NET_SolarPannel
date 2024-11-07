@@ -17,18 +17,14 @@ public class TraitementEfficiencyModel : PageModel
     public void OnGet()
     {
         PSQLCon pSQLCon = new PSQLCon();
+        string efficiency = TempData["efficacite"].ToString();
+        string semesterId = TempData["semesterId"].ToString();
+        string start_hour = TempData["start_hour"].ToString();
+        string end_hour = TempData["end_hour"].ToString();
 
         using (var connection = new NpgsqlConnection(pSQLCon.ConnectionString))
         {
-            if (TempData["efficacite"] != null)
-            {
-                string efficiency = TempData["efficacite"].ToString();
-                string semesterId = TempData["semesterId"].ToString();
-                string start_hour = TempData["start_hour"].ToString();
-                string end_hour = TempData["end_hour"].ToString();
-
                 DAO.insertEfficiency(efficiency, semesterId, start_hour, end_hour, connection);
-            }
         }
 
     }
