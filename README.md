@@ -17,57 +17,58 @@
     <h3>Page Index:</h3>
         <h4>View</h4>
             <ul>
-                <li>Welcome Article</li>
-                <li>Aside Navbar</li>
+                <li>(ok)Welcome Article</li>
+                <li>(ok)Aside Navbar</li>
                 <ul>
-                    <li>AJouter une r&eacute;sidence</li>
-                    <li>Liste de r&eacute;sidences</li>
-                    <li>Liste de materiel</li>
-                    <li>&Eacute;fficat&eacute;</li>
+                    <li>(ok)AJouter une r&eacute;sidence</li>
+                    <li>(ok)Liste de r&eacute;sidences</li>
+                    <li>(ok)Liste de materiel</li>
+                    <li>(ok)&Eacute;fficat&eacute;</li>
                 </ul>
             </ul>
         <h4>Controller</h4>
             <ul>
-                <li>call getListResidence()</li>
-                <li>call getHourlyEfficiency()</li>
-                <li>go to page "AJouter une r&eacute;sidence"(residence[])</li>
-                <li>go to page "Liste de r&eacute;sidences"</li>
-                <li>go to page "&Eacute;fficat&eacute;"(Semester[])</li>
+                <li>(ok)call getListResidence()</li>
+                <li>(ok)call getHourlyEfficiency()</li>
+                <li>(ok)go to page "AJouter une r&eacute;sidence"(residence[])</li>
+                <li>(ok)go to page "Liste de r&eacute;sidences"</li>
+                <li>(ok)go to page "&Eacute;fficat&eacute;"(Semester[])</li>
             </ul>
         <h4>Back End</h4>
             <h5>Database<h5>
                 <ul>
-                    <li>Create database solar/solar</li>
-                    <li>Create table residence(id,adress)</li>
-                    <li>Create table residence_device(id_residence,device,power,start_hour,end_hour)</li>
-                    <li>Create table semester(id,name,start_date,start_date)</li>
-                    <li>Create table hourly_efficiency(id,id_semester,start_hour,end_hour,percentile_efficiency)</li>
-                    <li>Create table solar_panel(id,name,price_per_watt)</li>
-                    <li>Create table battery(id,name,price_per_watt,a_plat)</li>
-                    <li>Create table residence_consumption(id,id_residence,id_semester,solar_panel_power,battery_charge)</li>
-                    <li>Create table bill(id,id_residence,id_semester,id_solar_panel,solar_panel_price,id_battery,battery_price,total_price)</li>
+                    <li>(ok)Create database solar/solar</li>
+                    <li>(ok)Create table residence(id,adress)</li>
+                    <li>(ok)Create table residence_device(id_residence,device,power,start_hour,end_hour)</li>
+                    <li>(ok)Create table semester(id,name,start_date,start_date)</li>
+                    <li>(ok)Create table hourly_efficiency(id,id_semester,start_hour,end_hour,percentile_efficiency)</li>
+                    <li>(ok)Create table solar_panel(id,name,price_per_watt)</li>
+                    <li>(ok)Create table battery(id,name,price_per_watt,a_plat)</li>
+                    <li>(ok)Create table residence_consumption(id,id_residence,id_semester,solar_panel_power,battery_charge)</li>
+                    <li>(ok)Create table bill(id,id_residence,id_semester,id_solar_panel,solar_panel_price,id_battery,battery_price,total_price)</li>
                 </ul>
             <h5>classes</h5>
                 <ul>
-                    <li>Residence(id,adress,device[])</li>
-                    <li>Device(id_residence,device,power,startHour,endHour)</li>
-                    <li>Semester(id,name,startDate,endDate,hourlyEfficiency[])</li>
-                    <li>HourlyEfficiency(id,startDate,endDate,percentileEfficiency)</li>
-                    <li>SolarPanel(id,name,pricePerWatt)</li>                    
-                    <li>Battery(id,name,pricePerWatt,aPlat)</li>
-                    <li>PSQLConn</li>
-                    <li>Util</li>
+                    <li>(ok)Residence(id,adress,device[])</li>
+                    <li>(ok)Device(id_residence,device,power,startHour,endHour)</li>
+                    <li>(ok)Semester(id,name,startDate,endDate,hourlyEfficiency[])</li>
+                    <li>(ok)HourlyEfficiency(id,startDate,endDate,percentileEfficiency)</li>
+                    <li>(ok)SolarPanel(id,name,pricePerWatt)</li>                    
+                    <li>(ok)Battery(id,name,pricePerWatt,aPlat)</li>
+                    <li>(ok)PSQLConn</li>
+                    <li>(ok)Util</li>
                     <ul>
                         <li>getListResidence()</li>
                         <li>getListDevice()</li>
-                        <li>getListHourlyEfficiency()</li>
-                        <li>getListSemester()</li>
+                        <li>(ok)getListHourlyEfficiency()</li>
+                        <li>(ok)getListSemester()</li>
                     </ul>
                 </ul>
 
 <h2>Guide & Tips:</h2>
 <h3>Install Npgsql</h3>
 <ul>
+    <li>get nuget.exe</li>
     <li>nuget install Npgsql</li>
     <li>dotnet restore</li>
 </ul>
