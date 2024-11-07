@@ -8,8 +8,8 @@ namespace efficiency
         public int Id { get; set; }
         public String Name { get; set; }
         public List<HourlyEfficiency> Hours{get;set;}
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly EndDate { get; set; }
         public Semester() { }
         public Semester addId(int i)
         {
@@ -21,13 +21,13 @@ namespace efficiency
             this.Name = n;
             return this;
         }
-        public Semester addStartDate(DateTime s)
+        public Semester addStartDate(DateOnly s)
         {
             this.StartDate = s;
             return this;
         }
 
-        public Semester addEndDate(DateTime e)
+        public Semester addEndDate(DateOnly e)
         {
             this.EndDate = e;
             return this;

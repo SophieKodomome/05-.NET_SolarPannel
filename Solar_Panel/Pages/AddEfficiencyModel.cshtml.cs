@@ -11,12 +11,11 @@ public class AddEfficiencyModel : PageModel
 {
     private readonly ILogger<AddEfficiencyModel> _logger;
     public List<Semester> semesters = new List<Semester>();
-    public Semester SelectedSemester{get;set;}
+    public Semester SelectedSemester { get; set; }
 
     public AddEfficiencyModel(ILogger<AddEfficiencyModel> logger)
     {
         _logger = logger;
-
     }
 
     public void OnGet()
@@ -29,22 +28,34 @@ public class AddEfficiencyModel : PageModel
         }
     }
 
-    public IActionResult OnPost()
+    public IActionResult OnPostTraitementSemester()
     {
-        string[] arraySymptomLabel = Request.Form["symptom"];
-        string[] arraySymptomValues = Request.Form["severity"];
-        string[] arraySymptomId = Request.Form["symptomId"];
+        // Handle form submission for "Ajouter semestre"
+        string responseSemester = Request.Form["semestre"];
+        string responseStartDate = Request.Form["start_date"];
+        string responseEndDate = Request.Form["end_date"];
 
-        //Console.WriteLine("size "+arraySymptomLabel.Length);
-        string separator = "-";
+        TempData["semestre"] = responseSemester;
+        TempData["start_date"] = responseStartDate;
+        TempData["end_date"] = responseEndDate;
 
-        string concatSymptomValues = string.Join(separator, arraySymptomValues);
-        string concatSymptomlabel = string.Join(separator, arraySymptomLabel);
-        string concatSymptomId = string.Join(separator, arraySymptomId);
+        return RedirectToPage("/TraitementSemester");
+    }
 
-        TempData["symptom"] = concatSymptomlabel;
-        TempData["symptomId"] = concatSymptomId;
-        TempData["severity"] = concatSymptomValues;
-        return RedirectToPage("/Traitement");
+    public IActionResult OnPostTraitementEfficiency()
+    {
+        // Handle form submission for "Ajouter efficacité journalière"
+        string responseEfficiency = Request.Form["efficacite"];
+        string responseSemesterId = Request.Form["SelectedSemesterId"];
+        string responseStartHour = Request.Form["start_hour"];
+        string responseEndHour = Request.Form["end_hour"];
+
+        TempData["efficacite"] = responseEfficiency;
+        TempData["semesterId"] = responseSemesterId;
+        TempData["start_hour"] = responseStartHour;
+        TempData["end_hour"] = responseEndHour;
+
+        return RedirectToPage("/TraitementEfficiency");
     }
 }
+
