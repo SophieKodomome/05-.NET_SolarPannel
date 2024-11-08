@@ -12,6 +12,8 @@
         @foreach(var residence in Model.residences)
         {
             <h2>@residence.Name</h2>
+            <p>Plus Haute Consommation journali&egrave;re: @residence.HighestConsumption Watt &agrave; @residence.DayTimeHighestConsumption heures</p>
+            <p>Consommation nocturne: @residence.NightTimeConsumption Watt</p>
             <div>
                 <table>
                     <tr>

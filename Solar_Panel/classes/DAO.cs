@@ -43,6 +43,7 @@ namespace util
                             {
                                 hourlyConsumption[hour] += device.Power;
                             }
+                            Console.WriteLine(device.IdResidence);
                         }
 
                         // Scale consumption by efficiency percentage
@@ -54,6 +55,20 @@ namespace util
             }
 
             return hourlyConsumption;
+        }
+        public static int GetHighestConsumption(int[] consumptionArray)
+        {
+            int maxConsumption = 0;
+
+            for (int i = 0; i < consumptionArray.Length; i++)
+            {
+                if (consumptionArray[i] > maxConsumption)
+                {
+                    maxConsumption = consumptionArray[i];
+                }
+            }
+
+            return maxConsumption;
         }
 
         public static int GetTotalNightlyConsumption(List<Device> devices, List<HourlyEfficiency> hourlyEfficiencies)
@@ -101,6 +116,40 @@ namespace util
             return totalNightlyConsumption;
         }
 
+        // Existing function to get the hour with the highest consumption
+        public static int GetHighestConsumptionHour(int[] dayConsumption)
+        {
+            int maxConsumption = 0;
+            int maxHour = 0;
+
+            for (int hour = 0; hour < dayConsumption.Length; hour++)
+            {
+                if (dayConsumption[hour] > maxConsumption)
+                {
+                    maxConsumption = dayConsumption[hour];
+                    maxHour = hour;
+                }
+            }
+
+            return maxHour;
+        }
+
+        // New function to find the hourly efficiency for a specific hour
+        public static HourlyEfficiency GetHourlyEfficiencyForHour(int hour, List<HourlyEfficiency> hourlyEfficiencies)
+        {
+            foreach (var efficiency in hourlyEfficiencies)
+            {
+                if (efficiency.StartHour <= efficiency.EndHour && hour >= efficiency.StartHour && hour < efficiency.EndHour)
+                {
+                    return efficiency;
+                }
+                else if (efficiency.StartHour > efficiency.EndHour && (hour >= efficiency.StartHour || hour < efficiency.EndHour))
+                {
+                    return efficiency;
+                }
+            }
+            return null;
+        }
         public static List<Semester> getListSemester(NpgsqlConnection connection)
         {
             List<Semester> semesters = new List<Semester>();

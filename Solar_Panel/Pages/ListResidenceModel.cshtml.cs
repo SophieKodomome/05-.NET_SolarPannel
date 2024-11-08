@@ -25,6 +25,24 @@ public class ListResidenceModel : PageModel
 
         using (var connection = new NpgsqlConnection(pSQLCon.ConnectionString))
         {
+            // Retrieve semesters and hourly efficiencies
+            semesters = DAO.getListSemester(connection);
+            List<HourlyEfficiency> hourlyEfficiencies = DAO.getListHourlyEfficiency(connection);
+
+            for (int i = 0; i < semesters.Count; i++)
+            {
+                List<HourlyEfficiency> selectedHours = new List<HourlyEfficiency>();
+                for (int j = 0; j < hourlyEfficiencies.Count; j++)
+                {
+                    if (semesters[i].Id == hourlyEfficiencies[j].IdSemester)
+                    {
+                        selectedHours.Add(hourlyEfficiencies[j]);
+                    }
+                }
+                semesters[i].addHours(selectedHours);  // Move addHours call outside inner loop
+            }
+
+            // Retrieve residences and devices
             residences = DAO.getListResidence(connection);
             List<Device> devices = DAO.getListDevice(connection);
 
@@ -38,80 +56,31 @@ public class ListResidenceModel : PageModel
                     {
                         selectedDevices.Add(devices[j]);
                     }
-                    residences[i].addDevices(selectedDevices);
                 }
-            }
+                residences[i].addDevices(selectedDevices);
 
-            semesters = DAO.getListSemester(connection);
-            List<HourlyEfficiency> hourlyEfficiencies = DAO.getListHourlyEfficiency(connection);
+                // Calculate day and night consumption
+                int[] dayConsumption = DAO.GetDaytimeConsumption(residences[i].Devices, semesters[1].Hours);
+                int nightConsumption = DAO.GetTotalNightlyConsumption(residences[i].Devices, semesters[1].Hours);
+                int highestConsumption=DAO.GetHighestConsumption(dayConsumption);
+                int highestConsumptionHour = DAO.GetHighestConsumptionHour(dayConsumption);
 
-            for (int i = 0; i < semesters.Count; i++)
-            {
-                List<HourlyEfficiency> selectedHours = new List<HourlyEfficiency>();
-                for (int j = 0; j < hourlyEfficiencies.Count; j++)
+                residences[i].addDayTimeHighestConsumption(highestConsumptionHour);
+                residences[i].addNightTimeConsumption(nightConsumption);
+                residences[i].addHighestConsumption(highestConsumption);
+                // Get hourly efficiency for the highest consumption hour
+                HourlyEfficiency highestConsumptionEfficiency = DAO.GetHourlyEfficiencyForHour(highestConsumptionHour, semesters[0].Hours);
+
+                if (highestConsumptionEfficiency != null)
                 {
-                    if (semesters[i].Id == hourlyEfficiencies[j].IdSemester)
-                    {
-                        selectedHours.Add(hourlyEfficiencies[j]);
-                    }
-                    semesters[i].addHours(selectedHours);
+                    Console.WriteLine($"The efficiency for this hour is {highestConsumptionEfficiency.PercentileEfficiency}% " +
+                                      $"from {highestConsumptionEfficiency.StartHour} to {highestConsumptionEfficiency.EndHour}.");
+                }
+                else
+                {
+                    Console.WriteLine("No efficiency data found for this hour.");
                 }
             }
         }
-
-        int[] dayConsumption = DAO.GetDaytimeConsumption(residences[0].Devices, semesters[0].Hours);
-        int nightConsumption = DAO.GetTotalNightlyConsumption(residences[0].Devices, semesters[0].Hours);
-
-        // Get the hour with the highest consumption
-        int highestConsumptionHour = GetHighestConsumptionHour(dayConsumption);
-
-        // Find the corresponding hourly efficiency
-        HourlyEfficiency highestConsumptionEfficiency = GetHourlyEfficiencyForHour(highestConsumptionHour, semesters[0].Hours);
-
-        Console.WriteLine($"The hour with the highest consumption is: {highestConsumptionHour} with {dayConsumption[highestConsumptionHour]} units.");
-        if (highestConsumptionEfficiency != null)
-        {
-            Console.WriteLine($"The efficiency for this hour is {highestConsumptionEfficiency.PercentileEfficiency}% " +
-                              $"from {highestConsumptionEfficiency.StartHour} to {highestConsumptionEfficiency.EndHour}.");
-        }
-        else
-        {
-            Console.WriteLine("No efficiency data found for this hour.");
-        }
-    }
-
-    // Existing function to get the hour with the highest consumption
-    public static int GetHighestConsumptionHour(int[] dayConsumption)
-    {
-        int maxConsumption = 0;
-        int maxHour = 0;
-
-        for (int hour = 0; hour < dayConsumption.Length; hour++)
-        {
-            if (dayConsumption[hour] > maxConsumption)
-            {
-                maxConsumption = dayConsumption[hour];
-                maxHour = hour;
-            }
-        }
-
-        return maxHour;
-    }
-
-    // New function to find the hourly efficiency for a specific hour
-    public static HourlyEfficiency GetHourlyEfficiencyForHour(int hour, List<HourlyEfficiency> hourlyEfficiencies)
-    {
-        foreach (var efficiency in hourlyEfficiencies)
-        {
-            if (efficiency.StartHour <= efficiency.EndHour && hour >= efficiency.StartHour && hour < efficiency.EndHour)
-            {
-                return efficiency;
-            }
-            else if (efficiency.StartHour > efficiency.EndHour && (hour >= efficiency.StartHour || hour < efficiency.EndHour))
-            {
-                return efficiency;
-            }
-        }
-        return null;
     }
 }
