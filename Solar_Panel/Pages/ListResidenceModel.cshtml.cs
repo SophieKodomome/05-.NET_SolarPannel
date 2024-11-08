@@ -65,11 +65,14 @@ public class ListResidenceModel : PageModel
                 int highestConsumption=DAO.GetHighestConsumption(dayConsumption);
                 int highestConsumptionHour = DAO.GetHighestConsumptionHour(dayConsumption);
 
-                residences[i].addDayTimeHighestConsumption(highestConsumptionHour);
-                residences[i].addNightTimeConsumption(nightConsumption);
-                residences[i].addHighestConsumption(highestConsumption);
                 // Get hourly efficiency for the highest consumption hour
                 HourlyEfficiency highestConsumptionEfficiency = DAO.GetHourlyEfficiencyForHour(highestConsumptionHour, semesters[0].Hours);
+
+                Bill bill= new Bill().AddHighestConsumption(highestConsumption)
+                                    .AddDayTimeHighestConsumption(highestConsumptionHour)
+                                    .AddNightTimeConsumption(nightConsumption)
+                                    .AddDayTimePowerNeed(((highestConsumption*highestConsumptionEfficiency.PercentileEfficiency)/100)*2);
+                residences[i].addBill(bill);
 
                 if (highestConsumptionEfficiency != null)
                 {

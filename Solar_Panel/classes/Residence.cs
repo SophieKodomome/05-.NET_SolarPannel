@@ -9,61 +9,12 @@ namespace house
         public int Id { get; set; }
         public string Name { get; set; }
         private List<Device> listDevices;
-        private int dayTimeHighestConsumption;
-        private int highestConsumption;
-        private int nightTimeConsumption;
+        public Bill Bill{get;set;}
         public Residence() { }
         public List<Device> Devices
         {
             get { return listDevices; }
             set { listDevices = value; }
-        }
-
-        public int HighestConsumption
-        {
-            get{ return highestConsumption; }
-            set
-            {
-                if(value>=0)
-                {
-                    highestConsumption = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Day Consumption hour must be a non-negative value.");
-                }
-            }
-        }
-        public int DayTimeHighestConsumption
-        {
-            get { return dayTimeHighestConsumption; }
-            set
-            {
-                if (value >= 0)
-                {
-                    dayTimeHighestConsumption = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Day Consumption hour must be a non-negative value.");
-                }
-            }
-        }
-
-        public int NightTimeConsumption
-        {
-            get { return nightTimeConsumption; }
-            set
-            {
-                if (value >= 0)
-                {
-                    nightTimeConsumption = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Night Consumption must be a non-negative value.");
-                }
-            }
         }
         public Residence addId(int i)
         {
@@ -83,21 +34,9 @@ namespace house
             return this;
         }
 
-        //public Residence
-        public Residence addDayTimeHighestConsumption(int d)
+        public Residence addBill(Bill b)
         {
-            this.dayTimeHighestConsumption=d;
-            return this;
-        }
-        public Residence addNightTimeConsumption(int n)
-        {
-            this.nightTimeConsumption=n;
-            return this;
-        }
-
-        public Residence addHighestConsumption(int h)
-        {
-            this.highestConsumption=h;
+            this.Bill = b;
             return this;
         }
     }
