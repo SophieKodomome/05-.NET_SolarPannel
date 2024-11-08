@@ -12,7 +12,6 @@ public class ListResidenceModel : PageModel
 {
     private readonly ILogger<ListResidenceModel> _logger;
     public List<Residence> residences = new List<Residence>();
-    public List<Semester> semesters = new List<Semester>();
 
     public ListResidenceModel(ILogger<ListResidenceModel> logger)
     {
@@ -26,7 +25,7 @@ public class ListResidenceModel : PageModel
         using (var connection = new NpgsqlConnection(pSQLCon.ConnectionString))
         {
             // Retrieve semesters and hourly efficiencies
-            semesters = DAO.getListSemester(connection);
+            List<Semester> semesters = DAO.getListSemester(connection);
             List<HourlyEfficiency> hourlyEfficiencies = DAO.getListHourlyEfficiency(connection);
 
             for (int i = 0; i < semesters.Count; i++)
@@ -42,6 +41,8 @@ public class ListResidenceModel : PageModel
                 semesters[i].addHours(selectedHours);  // Move addHours call outside inner loop
             }
 
+            List<SolarPanel> solarPanels=DAO.GetSolarPanels(connection);
+            List<Battery> batteries=DAO.GetBatteries(connection);
             // Retrieve residences and devices
             residences = DAO.getListResidence(connection);
             List<Device> devices = DAO.getListDevice(connection);
@@ -71,7 +72,11 @@ public class ListResidenceModel : PageModel
                 Bill bill= new Bill().AddHighestConsumption(highestConsumption)
                                     .AddDayTimeHighestConsumption(highestConsumptionHour)
                                     .AddNightTimeConsumption(nightConsumption)
-                                    .AddDayTimePowerNeed(((highestConsumption*highestConsumptionEfficiency.PercentileEfficiency)/100)*2);
+                                    .AddDayTimePowerNeed(((highestConsumption*highestConsumptionEfficiency.PercentileEfficiency)/100)*2)
+                                    .AddSolarPanel(solarPanels[0])
+                                    .AddBattery(batteries[0])
+                                    .SetTotalPrice()
+                                    .SetMonthlyPrice();
                 residences[i].addBill(bill);
 
                 if (highestConsumptionEfficiency != null)

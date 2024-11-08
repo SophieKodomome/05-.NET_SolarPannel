@@ -7,7 +7,7 @@ namespace material
         public int Id { get; set; }
         public string Name { get; set; }
         private int pricePerWatt;
-        private int aPlat;
+        private double aPlat;
         public Battery() { }
         public int PricePerWatt
         {
@@ -25,7 +25,7 @@ namespace material
             }
         }        
         
-        public int APlat
+        public double APlat
         {
             get { return aPlat; }
             set
@@ -50,12 +50,12 @@ namespace material
             this.Name = n;
             return this;
         }
-        public Battery addPower(int p)
+        public Battery addPricePerWatt(int p)
         {
             this.PricePerWatt = p;
             return this;
         }
-        public Battery addAPlat(int a)
+        public Battery addAPlat(double a)
         {
             this.aPlat = a;
             return this;

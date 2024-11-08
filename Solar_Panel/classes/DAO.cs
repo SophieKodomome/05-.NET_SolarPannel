@@ -150,6 +150,87 @@ namespace util
             }
             return null;
         }
+        
+        public static List<SolarPanel> GetSolarPanels(NpgsqlConnection connection)
+        {
+            List<SolarPanel> solarPanels = new List<SolarPanel>();
+
+            try
+            {
+                connection.Open();
+
+                string selectCommand = "SELECT * FROM solar_panel";
+                using (var command = new NpgsqlCommand(selectCommand, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {    
+                        while (reader.Read())
+                        {
+                            int id=reader.GetInt32(0);
+                            string name=reader.GetString(1);
+                            int pricePerWatt=reader.GetInt32(2);
+
+                            SolarPanel solarPanel=
+                                new SolarPanel()
+                                .addId(id)
+                                .addName(name)
+                                .addPricePerWatt(pricePerWatt);
+
+                            solarPanels.Add(solarPanel);
+                        }
+                    }           
+                }
+            }
+            finally
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+            return solarPanels;
+        }
+        public static List<Battery> GetBatteries(NpgsqlConnection connection)
+        {
+            List<Battery> solarPanels = new List<Battery>();
+
+            try
+            {
+                connection.Open();
+
+                string selectCommand = "SELECT * FROM battery";
+                using (var command = new NpgsqlCommand(selectCommand, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {    
+                        while (reader.Read())
+                        {
+                            int id=reader.GetInt32(0);
+                            string name=reader.GetString(1);
+                            int pricePerWatt=reader.GetInt32(2);
+                            double aPlat=reader.GetDouble(3);
+
+                            Battery solarPanel=
+                                new Battery()
+                                .addId(id)
+                                .addName(name)
+                                .addPricePerWatt(pricePerWatt)
+                                .addAPlat(aPlat);
+
+                            solarPanels.Add(solarPanel);
+                        }
+                    }           
+                }
+            }
+            finally
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+            return solarPanels;
+        }
         public static List<Semester> getListSemester(NpgsqlConnection connection)
         {
             List<Semester> semesters = new List<Semester>();

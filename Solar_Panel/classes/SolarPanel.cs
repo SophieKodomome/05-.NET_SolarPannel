@@ -33,7 +33,7 @@ namespace material
             this.Name = n;
             return this;
         }
-        public SolarPanel addPower(int p)
+        public SolarPanel addPricePerWatt(int p)
         {
             this.PricePerWatt = p;
             return this;

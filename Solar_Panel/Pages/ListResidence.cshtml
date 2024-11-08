@@ -3,40 +3,48 @@
 @{
     ViewData["Title"] = "Liste Residence";
 }
-
 <div class="text-center">
-    <h1 class="display-4">Liste R&eacute;sidence</h1>
+    <h1 class="text-4xl font-bold mb-4">Liste Résidence</h1>
     <div>
-    @if(Model.residences !=null)
-    {
-        @foreach(var residence in Model.residences)
+        @if(Model.residences != null)
         {
-            <h2>@residence.Name</h2>
-            <p>Plus Haute Consommation journali&egrave;re: @residence.Bill.HighestConsumption Watt &agrave; @residence.Bill.DayTimeHighestConsumption heures</p>
-            <p>Production solaire journali&egrave;re: @residence.Bill.DayTimePowerNeed</p>
-            <p>Consommation nocturne: @residence.Bill.NightTimeConsumption Watt</p>
-            <div>
-                <table>
-                    <tr>
-                        <th>Appareil</th>
-                        <th>Consommation</th>
-                        <th>Heure de d&eacute;but</th>
-                        <th>Heure de fin</th>
-                    </tr>
-
-                    @foreach(var device in residence.Devices)
-                    {                    
-                        <tr>
-                            <td>@device.Name</td>
-                            <td>@device.Power</td>
-                            <td>@device.StartHour</td>
-                            <td>@device.EndHour</td>
-                        </tr>
-                    }
-
-                </table>
-            </div>
+            @foreach(var residence in Model.residences)
+            {
+                <h2 class="text-2xl font-semibold mt-4">@residence.Name</h2>
+                <p class="text-lg">Plus Haute Consommation journalière: @residence.Bill.HighestConsumption Watt à @residence.Bill.DayTimeHighestConsumption heures</p>
+                <p class="text-lg">Puissance panneau solaire nécessaire en cette période: @residence.Bill.DayTimePowerNeed Watt</p>
+                <p class="text-lg">Consommation nocturne: @residence.Bill.NightTimeConsumption Watt</p>
+                <p class="text-lg">Panneau solaire utilisé: @residence.Bill.SolarPanel.Name</p>
+                <p class="text-lg">Prix panneau solaire: @residence.Bill.SolarPanelPrice</p>
+                <p class="text-lg">Batterie utilisée: @residence.Bill.Battery.Name</p>
+                <p class="text-lg">Prix batterie: @residence.Bill.BatteryPrice</p>
+                <p class="text-lg">Prix total: @residence.Bill.TotalPrice</p>
+                <p class="text-lg">Prix mensuel: @residence.Bill.MonthlyPrice</p>
+                <div class="overflow-x-auto">
+                    <table class="table-auto border border-gray-200 w-full mt-4">
+                        <thead>
+                            <tr class="bg-gray-100 text-left">
+                                <th class="px-4 py-2">Appareil</th>
+                                <th class="px-4 py-2">Consommation</th>
+                                <th class="px-4 py-2">Heure de début</th>
+                                <th class="px-4 py-2">Heure de fin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var device in residence.Devices)
+                            {
+                                <tr class="border-b">
+                                    <td class="px-4 py-2">@device.Name</td>
+                                    <td class="px-4 py-2">@device.Power</td>
+                                    <td class="px-4 py-2">@device.StartHour</td>
+                                    <td class="px-4 py-2">@device.EndHour</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
         }
-    }    
     </div>
 </div>
+

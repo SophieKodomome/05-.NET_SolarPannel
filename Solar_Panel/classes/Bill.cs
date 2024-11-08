@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using material;
 
 namespace house
 {
@@ -9,9 +9,62 @@ namespace house
         private int highestConsumption;
         private int nightTimeConsumption;
         private int dayTimePowerNeed;
-        private int batteryStorageLevel;
+        public double batteryStorageLevel;
+        public int solarPanelPrice;
+        public double batteryPrice;
 
+        public double TotalPrice{get;set;}
+        public double MonthlyPrice{get;set;}
+
+        public SolarPanel SolarPanel { get; set; }
+        public Battery Battery { get; set; }
         public Bill() { }
+
+        public double BatteryStorageLevel
+        {
+            get 
+            { 
+                return Battery != null ? nightTimeConsumption * Battery.APlat : 0.0;
+            }
+            private set
+            {
+                if (Battery != null)
+                {
+                    batteryStorageLevel = nightTimeConsumption * Battery.APlat;
+                }
+            }
+        }
+
+        public double BatteryPrice
+        {
+            get 
+            { 
+                return Battery != null ? BatteryStorageLevel * Battery.PricePerWatt : 0.0;
+            }
+            private set
+            {
+                if (Battery != null)
+                {
+                    batteryPrice = BatteryStorageLevel * Battery.PricePerWatt;
+                }
+            }
+        }
+
+        public int SolarPanelPrice
+        {
+            get
+            {
+                return SolarPanel != null ? DayTimePowerNeed * SolarPanel.PricePerWatt : 0;
+            }
+            private set
+            {
+                if (SolarPanel != null)
+                {
+                    solarPanelPrice = DayTimePowerNeed * SolarPanel.PricePerWatt;
+                }
+            }
+        }
+
         public int DayTimeHighestConsumption
         {
             get { return dayTimeHighestConsumption; }
@@ -76,22 +129,6 @@ namespace house
             }
         }
 
-        public int BatteryStorageLevel
-        {
-            get { return batteryStorageLevel; }
-            set
-            {
-                if (value >= 0)
-                {
-                    batteryStorageLevel = value;
-                }
-                else
-                {
-                    throw new ArgumentException("BatteryStorageLevel must be a non-negative value.");
-                }
-            }
-        }
-
         public Bill AddDayTimeHighestConsumption(int dayConsumption)
         {
             this.DayTimeHighestConsumption = dayConsumption;
@@ -116,9 +153,33 @@ namespace house
             return this;
         }
 
-        public Bill AddBatteryStorageLevel(int batteryLevel)
+        public Bill AddBatteryStorageLevel(double batteryLevel)
         {
-            this.BatteryStorageLevel = batteryLevel;
+            this.batteryStorageLevel = batteryLevel;
+            return this;
+        }
+
+        public Bill AddSolarPanel(SolarPanel s)
+        {
+            this.SolarPanel = s;
+            return this;
+        }
+
+        public Bill AddBattery(Battery b)
+        {
+            this.Battery = b;
+            return this;
+        }
+
+        public Bill SetTotalPrice()
+        {
+            this.TotalPrice=this.SolarPanelPrice+this.BatteryPrice;
+            return this;
+        }
+        public Bill SetMonthlyPrice()
+        {
+            this.TotalPrice=this.SolarPanelPrice+this.BatteryPrice;
+            this.MonthlyPrice=this.TotalPrice/12;
             return this;
         }
     }
