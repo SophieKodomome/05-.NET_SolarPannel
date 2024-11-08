@@ -8,35 +8,31 @@ namespace util
     public class DAO
     {
 
-        public static void getConsumption(List<Device> devices, List<HourlyEfficiency> hourlyEfficiencies)
+        public static int[] GetDaytimeConsumption(List<Device> devices, List<HourlyEfficiency> hourlyEfficiencies)
         {
             int[] hourlyConsumption = new int[24];
-            int totalNightlyConsumption = 0; // Variable to accumulate nightly consumption with zero efficiency
 
             for (int hour = 0; hour < hourlyConsumption.Length; hour++)
             {
                 foreach (var hourlyEfficiency in hourlyEfficiencies)
                 {
-                    // Check if current hour falls within the efficiency period (same day or wrapping past midnight)
-                    bool isEfficiencyActive = hourlyEfficiency.PercentileEfficiency > 0 &&
-                        ((hourlyEfficiency.StartHour <= hour && hourlyEfficiency.EndHour > hour) ||
-                         (hourlyEfficiency.StartHour > hourlyEfficiency.EndHour &&
-                          (hour >= hourlyEfficiency.StartHour || hour < hourlyEfficiency.EndHour)));
-
-                    // Calculate consumption based on efficiency
-                    if (isEfficiencyActive)
+                    // Process only hours with positive efficiency
+                    if (hourlyEfficiency.PercentileEfficiency > 0 &&
+                        ((hourlyEfficiency.StartHour <= hour && hourlyEfficiency.EndHour > hour) ||  // Efficiency within the same day
+                         (hourlyEfficiency.StartHour > hourlyEfficiency.EndHour &&                  // Efficiency wrapping past midnight
+                          (hour >= hourlyEfficiency.StartHour || hour < hourlyEfficiency.EndHour))))
                     {
                         foreach (var device in devices)
                         {
                             bool isDeviceActive = false;
 
-                            // Device active within the same day
+                            // Case 1: Device active within the same day
                             if (device.StartHour < device.EndHour &&
                                 device.StartHour <= hour && device.EndHour > hour)
                             {
                                 isDeviceActive = true;
                             }
-                            // Device active across midnight
+                            // Case 2: Device active across midnight
                             else if (device.StartHour > device.EndHour &&
                                      (hour >= device.StartHour || hour < device.EndHour))
                             {
@@ -49,43 +45,52 @@ namespace util
                             }
                         }
 
-                        // Apply efficiency scaling for the hour after summing all devices
-                        hourlyConsumption[hour] = (int)(hourlyConsumption[hour] * (hourlyEfficiency.PercentileEfficiency / 100.0));
-                        Console.WriteLine("Consumption: " + hourlyConsumption[hour]);
+                        // Scale consumption by efficiency percentage
+                        //hourlyConsumption[hour] = (int)((hourlyConsumption[hour] * (hourlyEfficiency.PercentileEfficiency / 100.0)))*2;
+                        hourlyConsumption[hour] = hourlyConsumption[hour];
+                        Console.WriteLine($"Hour {hour}: Scaled Consumption = {hourlyConsumption[hour]}");
                     }
-                    else
+                }
+            }
+
+            return hourlyConsumption;
+        }
+
+        public static int GetTotalNightlyConsumption(List<Device> devices, List<HourlyEfficiency> hourlyEfficiencies)
+        {
+            int totalNightlyConsumption = 0;
+
+            for (int hour = 0; hour < 24; hour++)
+            {
+                foreach (var hourlyEfficiency in hourlyEfficiencies)
+                {
+                    // Process only hours with zero efficiency (night hours)
+                    if (hourlyEfficiency.PercentileEfficiency == 0 &&
+                        ((hourlyEfficiency.StartHour <= hour && hourlyEfficiency.EndHour > hour) ||  // Night within the same day
+                         (hourlyEfficiency.StartHour > hourlyEfficiency.EndHour &&                   // Night wrapping past midnight
+                          (hour >= hourlyEfficiency.StartHour || hour < hourlyEfficiency.EndHour))))
                     {
-                        // Calculate totalNightlyConsumption when efficiency is zero and within defined "night" hours
-                        if (hourlyEfficiency.PercentileEfficiency == 0)
+                        foreach (var device in devices)
                         {
-                            bool isNightHour = (hourlyEfficiency.StartHour <= hour && hourlyEfficiency.EndHour > hour) ||
-                                               (hourlyEfficiency.StartHour > hourlyEfficiency.EndHour &&
-                                               (hour >= hourlyEfficiency.StartHour || hour < hourlyEfficiency.EndHour));
+                            bool isDeviceActiveAtNight = false;
 
-                            if (isNightHour)
+                            // Case 1: Device active within the same day
+                            if (device.StartHour < device.EndHour &&
+                                device.StartHour <= hour && device.EndHour > hour)
                             {
-                                foreach (var device in devices)
-                                {
-                                    bool isDeviceActiveAtNight = false;
+                                isDeviceActiveAtNight = true;
+                            }
+                            // Case 2: Device active across midnight
+                            else if (device.StartHour > device.EndHour &&
+                                     (hour >= device.StartHour || hour < device.EndHour))
+                            {
+                                isDeviceActiveAtNight = true;
+                            }
 
-                                    // Device active within the same day
-                                    if (device.StartHour < device.EndHour &&
-                                        device.StartHour <= hour && device.EndHour > hour)
-                                    {
-                                        isDeviceActiveAtNight = true;
-                                    }
-                                    // Device active across midnight
-                                    else if (device.StartHour > device.EndHour &&
-                                             (hour >= device.StartHour || hour < device.EndHour))
-                                    {
-                                        isDeviceActiveAtNight = true;
-                                    }
-
-                                    if (isDeviceActiveAtNight)
-                                    {
-                                        totalNightlyConsumption += device.Power;
-                                    }
-                                }
+                            if (isDeviceActiveAtNight)
+                            {
+                                totalNightlyConsumption += device.Power;
+                                Console.WriteLine($"Night Hour {hour}: Device {device.Name} adds {device.Power} to total nightly consumption.");
                             }
                         }
                     }
@@ -93,7 +98,9 @@ namespace util
             }
 
             Console.WriteLine("Total Nightly Consumption with Zero Efficiency: " + totalNightlyConsumption);
+            return totalNightlyConsumption;
         }
+
         public static List<Semester> getListSemester(NpgsqlConnection connection)
         {
             List<Semester> semesters = new List<Semester>();
