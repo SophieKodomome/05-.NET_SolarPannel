@@ -1,11 +1,99 @@
 using efficiency;
 using house;
+using material;
 using Npgsql;
 
 namespace util
 {
     public class DAO
     {
+
+        public static void getConsumption(List<Device> devices, List<HourlyEfficiency> hourlyEfficiencies)
+        {
+            int[] hourlyConsumption = new int[24];
+            int totalNightlyConsumption = 0; // Variable to accumulate nightly consumption with zero efficiency
+
+            for (int hour = 0; hour < hourlyConsumption.Length; hour++)
+            {
+                foreach (var hourlyEfficiency in hourlyEfficiencies)
+                {
+                    // Check if current hour falls within the efficiency period (same day or wrapping past midnight)
+                    bool isEfficiencyActive = hourlyEfficiency.PercentileEfficiency > 0 &&
+                        ((hourlyEfficiency.StartHour <= hour && hourlyEfficiency.EndHour > hour) ||
+                         (hourlyEfficiency.StartHour > hourlyEfficiency.EndHour &&
+                          (hour >= hourlyEfficiency.StartHour || hour < hourlyEfficiency.EndHour)));
+
+                    // Calculate consumption based on efficiency
+                    if (isEfficiencyActive)
+                    {
+                        foreach (var device in devices)
+                        {
+                            bool isDeviceActive = false;
+
+                            // Device active within the same day
+                            if (device.StartHour < device.EndHour &&
+                                device.StartHour <= hour && device.EndHour > hour)
+                            {
+                                isDeviceActive = true;
+                            }
+                            // Device active across midnight
+                            else if (device.StartHour > device.EndHour &&
+                                     (hour >= device.StartHour || hour < device.EndHour))
+                            {
+                                isDeviceActive = true;
+                            }
+
+                            if (isDeviceActive)
+                            {
+                                hourlyConsumption[hour] += device.Power;
+                            }
+                        }
+
+                        // Apply efficiency scaling for the hour after summing all devices
+                        hourlyConsumption[hour] = (int)(hourlyConsumption[hour] * (hourlyEfficiency.PercentileEfficiency / 100.0));
+                        Console.WriteLine("Consumption: " + hourlyConsumption[hour]);
+                    }
+                    else
+                    {
+                        // Calculate totalNightlyConsumption when efficiency is zero and within defined "night" hours
+                        if (hourlyEfficiency.PercentileEfficiency == 0)
+                        {
+                            bool isNightHour = (hourlyEfficiency.StartHour <= hour && hourlyEfficiency.EndHour > hour) ||
+                                               (hourlyEfficiency.StartHour > hourlyEfficiency.EndHour &&
+                                               (hour >= hourlyEfficiency.StartHour || hour < hourlyEfficiency.EndHour));
+
+                            if (isNightHour)
+                            {
+                                foreach (var device in devices)
+                                {
+                                    bool isDeviceActiveAtNight = false;
+
+                                    // Device active within the same day
+                                    if (device.StartHour < device.EndHour &&
+                                        device.StartHour <= hour && device.EndHour > hour)
+                                    {
+                                        isDeviceActiveAtNight = true;
+                                    }
+                                    // Device active across midnight
+                                    else if (device.StartHour > device.EndHour &&
+                                             (hour >= device.StartHour || hour < device.EndHour))
+                                    {
+                                        isDeviceActiveAtNight = true;
+                                    }
+
+                                    if (isDeviceActiveAtNight)
+                                    {
+                                        totalNightlyConsumption += device.Power;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine("Total Nightly Consumption with Zero Efficiency: " + totalNightlyConsumption);
+        }
         public static List<Semester> getListSemester(NpgsqlConnection connection)
         {
             List<Semester> semesters = new List<Semester>();
@@ -46,6 +134,90 @@ namespace util
                 }
             }
             return semesters;
+        }
+
+        public static List<Residence> getListResidence(NpgsqlConnection connection)
+        {
+            List<Residence> semesters = new List<Residence>();
+
+            try
+            {
+                connection.Open();
+
+                string selectCommand = "SELECT * FROM residence";
+
+                using (var command = new NpgsqlCommand(selectCommand, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = reader.GetInt32(0);
+                            string name = reader.GetString(1);
+
+                            Residence semester = new Residence()
+                                .addId(id)
+                                .addName(name);
+
+                            semesters.Add(semester);
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+            return semesters;
+        }
+
+        public static List<Device> getListDevice(NpgsqlConnection connection)
+        {
+            List<Device> devices = new List<Device>();
+
+            try
+            {
+                connection.Open();
+
+                string selectCommand = "SELECT * FROM residence_device";
+
+                using (var command = new NpgsqlCommand(selectCommand, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = reader.GetInt32(0);
+                            int idResidence = reader.GetInt32(1);
+                            string name = reader.GetString(2);
+                            int consumption = reader.GetInt32(3);
+                            int startHour = reader.GetInt32(4);
+                            int startDate = reader.GetInt32(5);
+
+                            Device device = new Device()
+                                .addId(id)
+                                .addIdResidence(idResidence)
+                                .addName(name)
+                                .addPower(consumption)
+                                .addStartHour(startHour)
+                                .addEndHour(startDate);
+
+                            devices.Add(device);
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+            return devices;
         }
 
         public static DateOnly ConvertToDateOnly(DateTime dateTime)
@@ -178,23 +350,17 @@ namespace util
                     connect.Open();
 
                     // SQL command to insert a new semester
-                    string insertCommand = "INSERT INTO Efficiency (id_semester, start_hour, end_hour,percentile_efficiency) VALUES (@semesterId,@startHour,@endHour,@efficiency)";
+                    string insertCommand = "INSERT INTO hourly_efficiency (id_semester, start_hour, end_hour,percentile_efficiency) VALUES (" + semesterId + "," + startHour + "," + endHour + "," + efficiency + ")";
 
                     using (var command = new NpgsqlCommand(insertCommand, connect))
                     {
-                        // Set parameter values to prevent SQL injection
-                        command.Parameters.AddWithValue("semesterId", semesterId);
-                        command.Parameters.AddWithValue("startHour", startHour);
-                        command.Parameters.AddWithValue("endHour", endHour);
-                        command.Parameters.AddWithValue("efficiency", efficiency);
-
                         // Execute the command
                         command.ExecuteNonQuery();
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error inserting semester: " + ex.Message);
+                    Console.WriteLine("Error inserting efficiency: " + ex.Message);
                     // Handle exceptions or logging as needed
                 }
                 finally

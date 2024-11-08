@@ -4,6 +4,7 @@ namespace material
 {
     public class Device
     {
+        public int Id {get;set;}
         public int IdResidence { get; set; }
         public string Name { get; set; }
         private int power;
@@ -83,6 +84,11 @@ namespace material
             return this;
         }
 
+        internal Device addId(int id)
+        {
+            this.Id = id;
+            return this;
+        }
     }
 }
 

@@ -31,3 +31,4 @@ C:\Users\Pyvas\OneDrive\Documents\C-ITU-Files-L3\S5\02-Code\05-.NET_SolarPannel\
 C:\Users\Pyvas\OneDrive\Documents\C-ITU-Files-L3\S5\02-Code\05-.NET_SolarPannel\Solar_Panel\obj\Debug\net8.0\Solar_Panel.pdb
 C:\Users\Pyvas\OneDrive\Documents\C-ITU-Files-L3\S5\02-Code\05-.NET_SolarPannel\Solar_Panel\obj\Debug\net8.0\Solar_Panel.genruntimeconfig.cache
 C:\Users\Pyvas\OneDrive\Documents\C-ITU-Files-L3\S5\02-Code\05-.NET_SolarPannel\Solar_Panel\obj\Debug\net8.0\ref\Solar_Panel.dll
+C:\Users\Pyvas\OneDrive\Documents\C-ITU-Files-L3\S5\02-Code\05-.NET_SolarPannel\Solar_Panel\obj\Debug\net8.0\Solar_Panel.sourcelink.json

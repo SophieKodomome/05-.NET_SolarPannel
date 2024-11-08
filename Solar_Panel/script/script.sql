@@ -69,16 +69,16 @@ CREATE TABLE bill(
 INSERT INTO semester(name,start_date,end_date) VALUES ('semester 1','2000-03-15','2000-07-14');
 INSERT INTO semester(name,start_date,end_date) VALUES ('semester 2','2000-07-15','2000-03-14');
 
-INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (1,6,8,10);
+INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (1,6,9,10);
 INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (1,9,10,20);
-INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (1,11,13,60);
-INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (1,14,16,30);
+INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (1,10,13,60);
+INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (1,13,17,30);
 INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (1,17,5,0);
 
-INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (2,6,8,20);
+INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (2,6,9,20);
 INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (2,9,10,40);
-INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (2,11,13,80);
-INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (2,14,16,60);
+INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (2,10,13,80);
+INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (2,13,17,60);
 INSERT INTO hourly_efficiency(id_semester,start_hour,end_hour,percentile_efficiency) VALUES (2,17,5,0);
 
 INSERT INTO solar_panel(name,price_per_watt) VALUES ('Solar panel',400);

@@ -24,7 +24,7 @@ public class TraitementEfficiencyModel : PageModel
 
         using (var connection = new NpgsqlConnection(pSQLCon.ConnectionString))
         {
-                DAO.insertEfficiency(efficiency, semesterId, start_hour, end_hour, connection);
+            DAO.insertEfficiency(efficiency, semesterId, start_hour, end_hour, connection);
         }
 
     }

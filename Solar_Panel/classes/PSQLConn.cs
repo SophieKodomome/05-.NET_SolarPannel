@@ -6,9 +6,6 @@ namespace connect
 
     public class PSQLCon
     {
-        private String test;
-        String connectionString;
-
         public String Test { get; set; }
         public String ConnectionString {get;set;}
         public PSQLCon()

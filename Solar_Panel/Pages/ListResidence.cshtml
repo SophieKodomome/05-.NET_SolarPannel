@@ -1,0 +1,39 @@
+@page
+@model ListResidenceModel
+@{
+    ViewData["Title"] = "Liste Residence";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Liste R&eacute;sidence</h1>
+    <div>
+    @if(Model.residences !=null)
+    {
+        @foreach(var residence in Model.residences)
+        {
+            <h2>@residence.Name</h2>
+            <div>
+                <table>
+                    <tr>
+                        <th>Appareil</th>
+                        <th>Consommation</th>
+                        <th>Heure de d&eacute;but</th>
+                        <th>Heure de fin</th>
+                    </tr>
+
+                    @foreach(var device in residence.Devices)
+                    {                    
+                        <tr>
+                            <td>@device.Name</td>
+                            <td>@device.Power</td>
+                            <td>@device.StartHour</td>
+                            <td>@device.EndHour</td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        }
+    }    
+    </div>
+</div>
