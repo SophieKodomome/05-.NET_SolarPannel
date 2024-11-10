@@ -61,11 +61,10 @@ public class ListResidenceModel : PageModel
                 residences[i].addDevices(selectedDevices);
 
                 // Calculate day and night consumption
-                int[] dayConsumption = DAO.GetDaytimeConsumption(residences[i].Devices, semesters[1].Hours);
-                int nightConsumption = DAO.GetTotalNightlyConsumption(residences[i].Devices, semesters[1].Hours);
+                int[] dayConsumption = DAO.GetDaytimeConsumption(residences[i].Devices, semesters[2].Hours);
+                int nightConsumption = DAO.GetTotalNightlyConsumption(residences[i].Devices, semesters[2].Hours);
                 int highestConsumption=DAO.GetHighestConsumption(dayConsumption);
                 int highestConsumptionHour = DAO.GetHighestConsumptionHour(dayConsumption);
-
                 // Get hourly efficiency for the highest consumption hour
                 HourlyEfficiency highestConsumptionEfficiency = DAO.GetHourlyEfficiencyForHour(highestConsumptionHour, semesters[0].Hours);
 
@@ -73,10 +72,19 @@ public class ListResidenceModel : PageModel
                                     .AddDayTimeHighestConsumption(highestConsumptionHour)
                                     .AddNightTimeConsumption(nightConsumption)
                                     .AddDayTimePowerNeed(((highestConsumption*highestConsumptionEfficiency.PercentileEfficiency)/100)*2)
-                                    .AddSolarPanel(solarPanels[0])
-                                    .AddBattery(batteries[0])
+                                    .AddSolarPanel(solarPanels[1])
+                                    .AddBattery(batteries[3])
                                     .SetTotalPrice()
+                                    .SetInstallationFee()
                                     .SetMonthlyPrice();
+                for (int k=0;k<dayConsumption.Length;k++)
+                {
+                    bill.HourlyConsumption.Add(dayConsumption[k]);
+                    bill.Resoldrest.Add(dayConsumption[k]);
+
+                }
+                
+                bill.SetPriceResoldRest();
                 residences[i].addBill(bill);
 
                 if (highestConsumptionEfficiency != null)

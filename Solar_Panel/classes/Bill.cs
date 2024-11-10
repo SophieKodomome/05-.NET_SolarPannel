@@ -13,6 +13,12 @@ namespace house
         public int solarPanelPrice;
         public double batteryPrice;
 
+        private List<int> hourlyConsumption=new List<int>();
+        private List<int> resoldRest=new List<int>();
+
+        private List<int> priceResoldRest=new List<int>();
+        public double InstallationFee{get;set;}
+
         public double TotalPrice{get;set;}
         public double MonthlyPrice{get;set;}
 
@@ -20,6 +26,29 @@ namespace house
         public Battery Battery { get; set; }
         public Bill() { }
 
+        public List<int> HourlyConsumption
+        {
+            get{return hourlyConsumption;}
+            set{
+                hourlyConsumption=value;
+            }
+        }
+
+        public List<int> Resoldrest
+        {
+            get{return resoldRest;}
+            set{
+                resoldRest=value;
+            }
+        }
+
+        public List<int> PriceResoldrest
+        {
+            get{return priceResoldRest;}
+            set{
+                priceResoldRest=value;
+            }
+        }
         public double BatteryStorageLevel
         {
             get 
@@ -178,8 +207,27 @@ namespace house
         }
         public Bill SetMonthlyPrice()
         {
-            this.TotalPrice=this.SolarPanelPrice+this.BatteryPrice;
+            this.TotalPrice=this.SolarPanelPrice+this.BatteryPrice+this.InstallationFee;
             this.MonthlyPrice=this.TotalPrice/12;
+            return this;
+        }
+
+        public Bill SetInstallationFee(){
+            this.InstallationFee=this.SolarPanelPrice+this.BatteryPrice;
+            this.InstallationFee=this.InstallationFee*0.2;
+
+            return this;
+        }
+
+        public Bill SetPriceResoldRest()
+        {
+            int price=10;
+            foreach (var singleRest in resoldRest)
+            {
+                Console.WriteLine("Rest"+singleRest);
+                this.priceResoldRest.Add(singleRest*price);
+                Console.WriteLine("Price"+singleRest*price);
+            }
             return this;
         }
     }
